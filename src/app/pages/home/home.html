@@ -1,0 +1,26 @@
+<section class="welcome">
+  <p class="eyebrow">AREA PERSONALE</p>
+  <h1>Organizza il tuo lavoro.</h1>
+  <p class="intro">Una piccola applicazione dimostrativa per imparare Angular 22 attraverso componenti, servizi, Signals e API REST.</p>
+  <a class="primary-link" routerLink="/attivita">Vai alle attività <span aria-hidden="true">→</span></a>
+</section>
+
+<section class="stats-grid" aria-label="Riepilogo attività">
+  <article class="stat-card">
+    <span class="stat-label">Attività totali</span>
+    <strong>{{ attivitaService.totale() }}</strong>
+  </article>
+  <article class="stat-card">
+    <span class="stat-label">Completate</span>
+    <strong>{{ attivitaService.completate() }}</strong>
+  </article>
+  <article class="stat-card">
+    <span class="stat-label">Da completare</span>
+    <strong>{{ attivitaService.daCompletare() }}</strong>
+  </article>
+</section>
+
+<section class="info-card">
+  <h2>Come è organizzato il progetto?</h2>
+  <p>I componenti si occupano dell'interfaccia, <code>AttivitaService</code> gestisce lo stato condiviso e <code>ApiService</code> comunica con il servizio REST dimostrativo.</p>
+</section>

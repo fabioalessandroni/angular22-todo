@@ -1,0 +1,71 @@
+<section class="page-heading">
+  <div>
+    <p class="eyebrow">GESTIONE</p>
+    <h1>Le tue attività</h1>
+    <p class="subtitle">Aggiungi, completa o elimina un'attività. Puoi anche caricare dati dimostrativi da una REST API.</p>
+  </div>
+  <button class="secondary-button" type="button" (click)="caricaDatiDemo()" [disabled]="caricamento()">
+    @if (caricamento()) {
+      Caricamento...
+    } @else {
+      Carica dati demo
+    }
+  </button>
+</section>
+
+<form class="add-form" (ngSubmit)="aggiungi()">
+  <label class="sr-only" for="nuova-attivita">Nuova attività</label>
+  <input
+    id="nuova-attivita"
+    name="nuovoTitolo"
+    type="text"
+    [(ngModel)]="nuovoTitolo"
+    placeholder="Es. Preparare la riunione"
+    maxlength="120"
+  >
+  <button class="primary-button" type="submit" [disabled]="!nuovoTitolo.trim()">Aggiungi</button>
+</form>
+
+@if (messaggio()) {
+  <p class="notice success" role="status">{{ messaggio() }}</p>
+}
+@if (errore()) {
+  <p class="notice error" role="alert">{{ errore() }}</p>
+}
+
+<section class="list-card">
+  <div class="list-header">
+    <div>
+      <h2>Elenco attività</h2>
+      <p>{{ attivitaService.completate() }} completate su {{ attivitaService.totale() }}</p>
+    </div>
+    <span class="counter">{{ attivitaService.totale() }}</span>
+  </div>
+
+  @if (attivitaService.totale() === 0) {
+    <div class="empty-state">
+      <strong>Nessuna attività</strong>
+      <span>Aggiungi la prima attività utilizzando il campo qui sopra.</span>
+    </div>
+  } @else {
+    <ul class="task-list">
+      @for (item of attivitaService.attivita(); track item.id) {
+        <li class="task-item" [class.completed]="item.completed">
+          <label class="task-label">
+            <input
+              type="checkbox"
+              [checked]="item.completed"
+              (change)="cambiaStato(item.id)"
+            >
+            <span>{{ item.title }}</span>
+          </label>
+          <button class="delete-button" type="button" (click)="elimina(item.id)" [attr.aria-label]="'Elimina ' + item.title">
+            Elimina
+          </button>
+        </li>
+      }
+    </ul>
+  }
+</section>
+
+<p class="api-note"><strong>Nota:</strong> i dati caricati da JSONPlaceholder sono dimostrativi. Le modifiche fatte in questa app restano nello stato in memoria e si perdono ricaricando la pagina.</p>
