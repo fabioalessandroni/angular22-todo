@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>Ordina <em>{{ book.title }}</em></h2>
+<mat-dialog-content>
+  <p>di <em>{{ book.author }}</em></p>
+  <mat-form-field>
+    <mat-label>Quantità</mat-label>
+    <input matInput type="number" min="1" [(ngModel)]="bookQuantity" name="quantity">
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Annulla</button>
+  <button mat-flat-button (click)="submitOrder()" [disabled]="invio() || bookQuantity < 1" cdkFocusInitial>
+    Invia ordine
+  </button>
+</mat-dialog-actions>

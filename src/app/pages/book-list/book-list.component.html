@@ -1,0 +1,46 @@
+<div class="grid-container">
+  <h1 class="mat-h1">Catalogo libri</h1>
+
+  @if (errore()) {
+    <p class="errore">{{ errore() }}</p>
+  }
+
+  @if (books(); as lista) {
+    <mat-grid-list [cols]="colNumber()" rowHeight="400px">
+      @for (book of lista; track book.isbn) {
+        <mat-grid-tile colspan="1" rowspan="1">
+          <mat-card class="dashboard-card">
+            <mat-card-header>
+              <mat-card-title>
+                {{ book.title }}
+                <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Apri menu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu" xPosition="before">
+                  <button mat-menu-item (click)="removeBook(book.isbn)">Elimina</button>
+                </mat-menu>
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="dashboard-card-content">
+              <mat-list role="list">
+                <mat-list-item role="listitem">Autore: {{ book.author }}</mat-list-item>
+                <mat-list-item role="listitem">ISBN: {{ book.isbn }}</mat-list-item>
+                <mat-list-item role="listitem">Editore: {{ book.publisher ?? '-' }}</mat-list-item>
+                <mat-list-item role="listitem">Prezzo: {{ book.price }} €</mat-list-item>
+              </mat-list>
+            </mat-card-content>
+            <mat-card-actions align="end">
+              <button mat-flat-button (click)="createOrder(book)">ORDINA</button>
+            </mat-card-actions>
+          </mat-card>
+        </mat-grid-tile>
+      } @empty {
+        @if (!errore()) {
+          <p>Nessun libro nel catalogo.</p>
+        }
+      }
+    </mat-grid-list>
+  } @else {
+    <mat-spinner />
+  }
+</div>
